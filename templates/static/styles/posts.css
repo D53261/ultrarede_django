@@ -1,0 +1,102 @@
+.posts {
+    max-width: 600px;
+    margin: auto;
+}
+
+.create-post {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 50%;
+}
+
+.create-post textarea {
+    width: 95%;
+    border: none;
+    resize: none;
+    outline: none;
+    font-size: 1em;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f0f2f5;
+}
+
+.create-post button {
+    width: 30%;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #07090e;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-property: padding, background-color;
+    transition-timing-function: ease;
+    transition-duration: 1s;
+} 
+
+.create-post button:hover {
+    padding: 30px;
+    background-color: #4267B2;
+}
+
+.add_file {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add_file input {
+    display: none;
+}
+
+.add_file_label {
+    display: inline-block;
+    width: 95%;
+    padding: 10px;
+    border-radius: 10px;
+    background: #07090e;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bolder;
+    color: white;
+}
+
+.funcional {
+    color: #b83652;
+}
+
+@media (max-width: 768px) {
+    .posts {
+        margin: auto;
+    }
+
+    .create-post {
+        margin: 50% 10px 10px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .posts {
+        margin: 50% 10px 10px 10px;
+    }
+
+    .create-post {
+        height: 300px;
+    }
+
+    .create-post textarea {
+        height: 150px;
+    }
+}
