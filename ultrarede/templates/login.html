@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block 'head' %}
+  <link rel="stylesheet" href="{% static 'styles/login.css' %}">
+{% endblock %}
+{% block 'body' %}
+
+    <div class="login">
+        <div class="login-form">
+            <h1>Login</h1>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Nome de Usuário">
+                <input type="password" name="password" placeholder="Senha">
+                <h5>Não tem conta? <a href="{% url 'signup' %}">Criar conta</a></h5>
+                <button type="submit">Entrar</button>
+            </form>
+            <h5 class="funcional">{{functioning}}</h5>
+        </div>
+    </div>
+
+{% endblock %}

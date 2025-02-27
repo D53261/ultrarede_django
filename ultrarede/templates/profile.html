@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+{% block 'head' %}
+  <link rel="stylesheet" href="{% static 'styles/profile.css' %}">
+{% endblock %}
+{% block 'body' %}
+
+  <div class="profile">
+    <div class="profile-header">
+      <div class="profile-image">
+        {% if user.picture %}
+          <img src="{{ user.picture.url }}" alt="Foto de Perfil">
+          {% if user == request.user %}
+            <a href="{% url 'change_picture' %}" class="change">Mudar foto</a>
+          {% endif %}
+        {% elif not user.picture and user == request.user %}
+          <form action="{% url 'picture' %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <img src="{% static 'perfil.png' %}" alt="Foto de Perfil">
+              <div class="add_file">
+                <input type="file" id="file" name="picture">
+                <label for="file" class="add_file_label">
+                    <p>Adicionar</p>
+                </label>
+              </div>
+              <button type="submit">Enviar</button>
+          </form>
+        {% else %}
+          <img src="{% static 'perfil.png' %}" alt="Foto de Perfil">
+        {% endif %}
+      </div>
+      <div class="info">
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.email }}</p>
+        {% if user.description %}
+          <p>{{ user.description }}</p>
+          {% if user == request.user %}
+            <a href="{% url 'change_description' %}" class="change">Mudar descrição</a>
+          {% endif %}
+        {% elif not user.description and user == request.user %}
+            <form action="{% url 'description' %}" method="POST" class="description-input"> 
+                {% csrf_token %}
+                <textarea rows="3" name="description" placeholder="Digite aqui a descrição de seu perfil"></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+        {% else %}
+          <p>Este usuário não possui descrição</p>
+        {% endif %}
+      </div>
+      {% if user == request.user %}
+        <a href="{% url 'exclude' 'Users' user.id %}" class="user-exclude">Excluir usuário</a>
+      {% endif %}
+    </div>
+
+    <div class="profile-content">
+      <h3>Posts</h3>
+      {% if posts %}
+        {% for post in posts %}
+          <div class="post">
+            <div class="author">{{ user.username }}</div>
+            <p class="email"> {{ user.email }} </p>
+            {% if post.picture %}
+              <div class="image">
+                <div class="circle">
+                    <img src="{{ post.picture.url }}" alt="Foto da postagem">
+                </div>
+              </div>
+            {% endif %}
+            <div class="content">{{ post.content|truncatewords:20 }}</div>
+            {% if post.user == request.user %}
+              <div class="funcionalities">
+                <div class="created-at">Postado em 
+                  {% if post.created_at.day < 10 %}
+                    0{{ post.created_at.day }}
+                  {% else %}
+                    {{ post.created_at.day }}
+                  {% endif %}
+                  /
+                  {% if post.created_at.month < 10 %}
+                    0{{ post.created_at.month }}
+                  {% else %}
+                    {{ post.created_at.month }}
+                  {% endif %}
+                  / {{ post.created_at.year }}</div>
+                  <a href="{% url 'exclude' 'Posts' post.id %}">Excluir Post</a>
+              </div>
+            {% else %}
+              <div class="created-at">Postado em 
+                {% if post.created_at.day < 10 %}
+                  0{{ post.created_at.day }}
+                {% else %}
+                  {{ post.created_at.day }}
+                {% endif %}
+                /
+                {% if post.created_at.month < 10 %}
+                  0{{ post.created_at.month }}
+                {% else %}
+                  {{ post.created_at.month }}
+                {% endif %}
+                / {{ post.created_at.year }}</div>
+            {% endif %}
+              <p class="comment-title">Comentários:</p>
+              {% for comment in comments %}
+                {% if comment.post.id == post.id %}
+                  <div class="comment">
+                    <div class="comment-head">
+                      <div class="comment-head-div">
+                        <a href="{% url 'perfil' comment.user.id %}">
+                          {% if comment.user.picture %}
+                            <img src="{{ comment.user.picture.url }}" class="comment-image-creator" alt="Foto do criador do comentário">
+                          {% else %}
+                            <img src="{% static 'perfil.png' %}" class="comment-image-creator" alt="Foto perfil padrão">
+                          {% endif %}
+                        </a>
+                        <div class="comment-info-creator">
+                          <p class="comment-creator-name">{{comment.user.username}}
+                            {% if comment.user == post.user %}
+                              (autor)
+                            {% endif %}
+                          </p>
+                          <p class="comment-creator-email">{{comment.user.email}}</p>
+                        </div>
+                      </div>
+                      {% if comment.user == request.user %}
+                        <a href="{% url 'exclude' 'Comments' comment.id %}" class="comment-exclude">Excluir Comentário</a>
+                      {% endif %}
+                    </div>
+                    <div class="comment-body">
+                      <p class="comment-text">{{comment.content}}</p>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+              <form action="{% url 'comment' post.id %}" method="POST" class="comment-creator">
+                {% csrf_token %}
+                <textarea type="text" name="comment" placeholder="Digite seu comentário" class="comment-input" required></textarea>
+                <button class="comment-submit">Enviar</button>
+              </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="nan">Nenhum post feito por este usuário</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

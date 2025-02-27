@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'head' %}
+  <link rel="stylesheet" href="{% static 'styles/posts.css' %}">
+{% endblock %}
+{% block 'body' %}
+
+    <div class="posts">
+        <form action="{% url 'posts' %}" method="POST" enctype="multipart/form-data">
+        <div class="create-post">
+                {% csrf_token %}
+                <textarea rows="3" name="content" placeholder="No que você está pensando?"></textarea>
+                <div class="add_file">
+                    <input type="file" id="file" name="picture">
+                    <label for="file" class="add_file_label">
+                        Adicionar imagem ao Post
+                    </label>
+                </div>
+                <button type="submit">Postar</button>
+            <h5 class="funcional">{{functioning}}</h5>
+        </div>
+    </form>
+    </div>
+    
+{% endblock %}
