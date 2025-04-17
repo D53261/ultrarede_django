@@ -4,12 +4,12 @@ Foi uma experiência desafiadora tendo em vista que durei pouco mais de um mês 
 * Obs: é preciso instalar algumas dependências para que o projeto rode sem erros, dependências estas que estão listadas no arquivo requirements.txt
 
 ## Tecnologias usadas:
-* Python
-* Django
-* Sistema de autenticação do Django
-* SQLite
-* HTML
-* CSS
+* **Python**
+* **Django**
+* **Sistema de autenticação do Django**
+* **SQLite**
+* **HTML**
+* **CSS**
 
 ## Feito por:
 ### Danilo Ribeiro 
